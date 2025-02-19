@@ -11,14 +11,11 @@ const getDataPokemon = async () => {
         }
         const dataJSON = await response.json();
         const dataPokemon = dataJSON.results;
-        const pokemonNames = dataPokemon.map(el => el.name).reduce((acc, item) => {
-            acc.push({name: item});
-            return acc
-        }, []);
+        const pokemonNames = dataPokemon.map((el, i, arr) => arr[i] = { name: el.name });
 
         const getDataAbilities = async (n, i) => {
             try {
-                const url= `https://pokeapi.co/api/v2/pokemon/${n}/`
+                const url = `https://pokeapi.co/api/v2/pokemon/${n}/`
                 const request = new Request(url, {
                     method: 'GET',
                 });
@@ -28,7 +25,7 @@ const getDataPokemon = async () => {
                 }
                 const dataJSON = await response.json();
                 return pokemonNames[i].abilities = dataJSON.abilities;
-                
+
             } catch (error) {
                 if (error instanceof Error) console.log(error.message)
             }
